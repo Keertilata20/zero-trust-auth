@@ -1,40 +1,105 @@
-# Zero-Trust-Auth
-**Continuous Authentication Engine Project**
+# Behavioral Zero-Trust Authentication
 
-## Features
-- **Risk scoring**: Device + location + behavior (0-100 score)
-- **Continuous authentication**: JWT refresh every 5 minutes
-- **Behavioral biometrics**: Mouse, typing patterns, geography
-- **Zero Trust**: Never trust, always verify
-- **JWT security**: 15-min sliding expiry + geo-fencing
+A continuous authentication prototype based on behavioral biometrics and dynamic risk scoring.
 
-## Risk Engine Formula
-- risk_score = 0.4×device + 0.3×geo_velocity + 0.3×behavior
-- High risk, **BLOCKED** - unusual IP + late hour
+Traditional systems trust users after login.  This system implements a Zero Trust principle:
 
-## Working
-**Login → Behavioral baseline → Continuous monitoring → Risk score → Re-authenticate**
+**Never trust once. Continuously verify.**
 
-## Tech Stack
-- Java Spring Boot
-- PostgreSQL
-- Redis
-- WebSocket biometrics
+Instead of relying only on passwords or tokens, the system monitors behavioral signals during a session and updates a real-time trust score.
 
-## Status
-- Risk engine prototype  
-- Browser extension  
-- Production deployment
+---
+
+## 🔐 Core Idea
+
+User identity is validated continuously using behavioral patterns such as:
+
+- Keystroke dynamics
+- Mouse movement patterns
+- Session consistency
+
+If behavior deviates from the user's baseline, the system flags elevated risk and can trigger re-authentication.
+
+---
+
+## ⚙️ How It Works
+
+1. User interacts normally after login
+2. Behavioral signals are captured
+3. A risk score is computed continuously
+4. Trust level is updated dynamically
+5. If trust drops → session verification required
+
+This aligns with modern Zero Trust Architecture principles.
+
+---
+
+## 🧠 Risk Engine Logic
+
+The system evaluates:
+
+- Typing consistency
+- Mouse stability
+- Session deviation
+
+Example conceptual model:
+
+Trust Score = Behavioral Stability - Session Anomaly
 
 
-## Performance Targets
-- Auth/sec: 10K+ 
-- Risk scoring: <10ms 
-- False positives: <0.5% 
-- JWT expiry: 15 min 
+Output:
 
-## Quick Start
-- git clone https://github.com/Keertilata20/zero-trust-auth
-- cd zero-trust-auth
-- mvn spring-boot:run
+- Trusted
+- Monitor
+- Re-Verify Required
 
+---
+
+## 🛠 Tech Stack
+
+- Python (Flask)
+- JavaScript (behavior tracking)
+- Risk scoring engine
+- JSON baseline modeling
+
+---
+
+## 🚀 Why This Matters
+
+Static authentication assumes identity remains constant.
+
+Modern threats exploit:
+
+- Session hijacking
+- Insider compromise
+- Credential reuse
+
+Behavioral authentication introduces:
+
+✔ Continuous trust evaluation  
+✔ Passive identity validation  
+✔ Reduced reliance on static credentials  
+
+---
+
+## 📌 Current Scope
+
+Prototype includes:
+
+- Real-time behavior capture
+- Trust score calculation
+- Risk-based session flagging
+
+Future scope:
+
+- Geo-risk integration
+- Device fingerprinting
+- ML-based anomaly detection
+
+---
+
+## ▶️ Run Locally
+
+```bash
+pip install -r requirements.txt
+python app.py
