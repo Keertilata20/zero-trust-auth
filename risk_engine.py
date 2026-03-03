@@ -1,8 +1,9 @@
 import json
 import numpy as np
-import time
+import os
 
 BASELINE_FILE = "data/baseline.json"
+
 
 def load_baseline():
     try:
@@ -11,23 +12,37 @@ def load_baseline():
     except:
         return None
 
+
 def calculate_deviation(current, baseline_avg):
     if not current or baseline_avg == 0:
         return 0
     return abs(np.mean(current) - baseline_avg)
 
-def calculate_risk(keystrokes, mouse):
+
+def calculate_risk(keystrokes, mouse, touch_avg=None, touch_distance=None):
+
     baseline = load_baseline()
 
     if not baseline:
         return "Monitoring"
 
-    key_dev = calculate_deviation(keystrokes, baseline["keystroke_avg"])
-    mouse_dev = calculate_deviation(mouse, baseline["mouse_avg"])
+    # ---------------- MOBILE ----------------
+    if touch_avg is not None and touch_distance is not None:
 
-    # Weighted risk score
-    risk_score = (0.6 * key_dev) + (0.4 * mouse_dev)
+        dev_touch_interval = abs(touch_avg - baseline.get("touch_avg", 0))
+        dev_touch_distance = abs(touch_distance - baseline.get("touch_distance", 0))
 
+        risk_score = (0.5 * dev_touch_interval) + (0.5 * dev_touch_distance)
+
+    # ---------------- DESKTOP ----------------
+    else:
+
+        key_dev = calculate_deviation(keystrokes, baseline.get("keystroke_avg", 0))
+        mouse_dev = calculate_deviation(mouse, baseline.get("mouse_avg", 0))
+
+        risk_score = (0.6 * key_dev) + (0.4 * mouse_dev)
+
+    # ---------------- THRESHOLDS ----------------
     if risk_score < 60:
         return "Trusted"
     elif risk_score < 150:

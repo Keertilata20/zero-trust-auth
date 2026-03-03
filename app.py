@@ -7,21 +7,21 @@ import os
 app = Flask(__name__)
 app.secret_key = "zero_trust_secret"
 
-# ---------------- GLOBAL STATE ----------------
-
 current_risk = "Trusted"
 learning_until = 0
 grace_until = 0
 
 learning_data = {
-    "keystrokes": [],
-    "mouse": []
+    "desktop": {"keystrokes": [], "mouse": []},
+    "mobile": {"touch_avg": [], "touch_distance": []}
 }
 
 BASELINE_PATH = "data/baseline.json"
 
-# ---------------- ROUTES ----------------
 
+# ================================
+# LOGIN
+# ================================
 @app.route('/', methods=['GET', 'POST'])
 def login():
     global learning_until, current_risk, learning_data
@@ -29,18 +29,24 @@ def login():
     if request.method == 'POST':
         session['user'] = request.form['username']
 
-        # Reset learning data
-        learning_data = {"keystrokes": [], "mouse": []}
+        learning_data = {
+            "desktop": {"keystrokes": [], "mouse": []},
+            "mobile": {"touch_avg": [], "touch_distance": []}
+        }
 
-        # Start learning phase (8 seconds)
         learning_until = time.time() + 8
         current_risk = "Learning"
+
+        print("Learning phase started")
 
         return redirect('/dashboard')
 
     return render_template('login.html')
 
 
+# ================================
+# PAGES
+# ================================
 @app.route('/dashboard')
 def dashboard():
     if 'user' not in session:
@@ -63,8 +69,9 @@ def security():
     return render_template('security.html')
 
 
-# ---------------- BEHAVIOR ENGINE ----------------
-
+# ================================
+# BEHAVIOR CAPTURE
+# ================================
 @app.route('/behavior', methods=['POST'])
 def behavior():
     global current_risk, grace_until, learning_until, learning_data
@@ -73,58 +80,110 @@ def behavior():
         return jsonify({"risk": "No session"})
 
     data = request.json
-    keystrokes = data.get("keystrokes", [])
-    mouse = data.get("mouse", [])
+    device = data.get("device")
 
-    # ---------------- LEARNING PHASE ----------------
+    # ---------- LEARNING PHASE ----------
     if time.time() < learning_until:
-        learning_data["keystrokes"].extend(keystrokes)
-        learning_data["mouse"].extend(mouse)
+
+        if device == "mobile":
+            learning_data["mobile"]["touch_avg"].append(data.get("touch_avg", 0))
+            learning_data["mobile"]["touch_distance"].append(data.get("touch_distance", 0))
+        else:
+            learning_data["desktop"]["keystrokes"].extend(data.get("keystrokes", []))
+            learning_data["desktop"]["mouse"].extend(data.get("mouse", []))
+
         current_risk = "Learning"
         return jsonify({"risk": "Learning"})
 
-    # After learning ends → build baseline once
-    if learning_data["keystrokes"] and learning_data["mouse"]:
+    # ---------- BUILD BASELINE ----------
+    if not os.path.exists(BASELINE_PATH):
 
         os.makedirs("data", exist_ok=True)
 
-        baseline = {
-            "keystroke_avg": sum(learning_data["keystrokes"]) / len(learning_data["keystrokes"]),
-            "mouse_avg": sum(learning_data["mouse"]) / len(learning_data["mouse"])
-        }
+        baseline = {}
+
+        # Desktop baseline
+        baseline["keystroke_avg"] = (
+            sum(learning_data["desktop"]["keystrokes"]) / len(learning_data["desktop"]["keystrokes"])
+            if learning_data["desktop"]["keystrokes"] else 0
+        )
+
+        baseline["mouse_avg"] = (
+            sum(learning_data["desktop"]["mouse"]) / len(learning_data["desktop"]["mouse"])
+            if learning_data["desktop"]["mouse"] else 0
+        )
+
+        # Mobile baseline
+        baseline["touch_avg"] = (
+            sum(learning_data["mobile"]["touch_avg"]) / len(learning_data["mobile"]["touch_avg"])
+            if learning_data["mobile"]["touch_avg"] else 0
+        )
+
+        baseline["touch_distance"] = (
+            sum(learning_data["mobile"]["touch_distance"]) / len(learning_data["mobile"]["touch_distance"])
+            if learning_data["mobile"]["touch_distance"] else 0
+        )
 
         with open(BASELINE_PATH, "w") as f:
             json.dump(baseline, f)
 
-        learning_data = {"keystrokes": [], "mouse": []}
+        print("Baseline created:", baseline)
+
         current_risk = "Trusted"
         return jsonify({"risk": "Trusted"})
 
-    # ---------------- GRACE PERIOD ----------------
+    # ---------- GRACE PERIOD ----------
     if time.time() < grace_until:
         return jsonify({"risk": "Trusted"})
 
-    # ---------------- NORMAL RISK EVALUATION ----------------
-    current_risk = calculate_risk(keystrokes, mouse)
+    # ---------- NORMAL RISK EVALUATION ----------
+    if device == "mobile":
+        current_risk = calculate_risk(
+            [],
+            [],
+            data.get("touch_avg"),
+            data.get("touch_distance")
+        )
+    else:
+        current_risk = calculate_risk(
+            data.get("keystrokes", []),
+            data.get("mouse", []),
+            None,
+            None
+        )
+
     return jsonify({"risk": current_risk})
 
 
+# ================================
+# STATUS
+# ================================
 @app.route('/status')
 def status():
     return jsonify({"risk": current_risk})
 
 
+# ================================
+# DEBUG BASELINE
+# ================================
+@app.route("/debug-baseline")
+def debug_baseline():
+    if os.path.exists(BASELINE_PATH):
+        with open(BASELINE_PATH, "r") as f:
+            return jsonify(json.load(f))
+    return jsonify({"status": "No baseline found"})
+
+
+# ================================
+# RESET
+# ================================
 @app.route('/reset')
 def reset():
     global current_risk, grace_until
-
     current_risk = "Trusted"
-    grace_until = time.time() + 5  # short trust window
-
+    grace_until = time.time() + 5
     return jsonify({"status": "reset"})
 
-
-# ---------------- RUN ----------------
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))

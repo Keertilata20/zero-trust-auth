@@ -1,11 +1,21 @@
+// ===============================
+// Device Detection
+// ===============================
+const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+
+// ===============================
+// Desktop Behavior Tracking
+// ===============================
 let keystrokeTimes = [];
 let mouseMovements = [];
-
 let lastKeyTime = null;
+let lastMouseMove = null;
 
 // Capture keystroke timing
 document.addEventListener("keydown", function () {
-    let now = Date.now();
+    if (isMobile) return;
+
+    const now = Date.now();
     if (lastKeyTime) {
         keystrokeTimes.push(now - lastKeyTime);
     }
@@ -13,16 +23,16 @@ document.addEventListener("keydown", function () {
 });
 
 // Capture mouse movement speed
-let lastMouseMove = null;
-
 document.addEventListener("mousemove", function (e) {
-    let now = Date.now();
+    if (isMobile) return;
+
+    const now = Date.now();
 
     if (lastMouseMove) {
-        let timeDiff = now - lastMouseMove.time;
-        let dx = e.clientX - lastMouseMove.x;
-        let dy = e.clientY - lastMouseMove.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
+        const timeDiff = now - lastMouseMove.time;
+        const dx = e.clientX - lastMouseMove.x;
+        const dy = e.clientY - lastMouseMove.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
 
         if (timeDiff > 0) {
             mouseMovements.push(distance / timeDiff);
@@ -36,22 +46,91 @@ document.addEventListener("mousemove", function (e) {
     };
 });
 
-// Send behavior data to backend every 10 seconds
+// ===============================
+// Mobile Touch Tracking
+// ===============================
+let touchIntervals = [];
+let touchDistances = [];
+let lastTouchTime = null;
+let lastTouchX = null;
+let lastTouchY = null;
+
+document.addEventListener("touchstart", function (e) {
+    if (!isMobile) return;
+
+    const now = Date.now();
+
+    if (lastTouchTime) {
+        touchIntervals.push(now - lastTouchTime);
+    }
+
+    lastTouchTime = now;
+
+    const touch = e.touches[0];
+    lastTouchX = touch.clientX;
+    lastTouchY = touch.clientY;
+});
+
+document.addEventListener("touchmove", function (e) {
+    if (!isMobile || lastTouchX === null) return;
+
+    const touch = e.touches[0];
+    const dx = touch.clientX - lastTouchX;
+    const dy = touch.clientY - lastTouchY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    touchDistances.push(distance);
+
+    lastTouchX = touch.clientX;
+    lastTouchY = touch.clientY;
+});
+
+// ===============================
+// Send Data to Backend
+// ===============================
 setInterval(() => {
+
+    let payload = {};
+
+    if (isMobile) {
+
+        const avgTouchInterval =
+            touchIntervals.length > 0
+                ? touchIntervals.reduce((a, b) => a + b, 0) / touchIntervals.length
+                : 0;
+
+        const avgTouchDistance =
+            touchDistances.length > 0
+                ? touchDistances.reduce((a, b) => a + b, 0) / touchDistances.length
+                : 0;
+
+        payload = {
+            device: "mobile",
+            touch_avg: avgTouchInterval,
+            touch_distance: avgTouchDistance
+        };
+
+        touchIntervals = [];
+        touchDistances = [];
+
+    } else {
+
+        payload = {
+            device: "desktop",
+            keystrokes: keystrokeTimes,
+            mouse: mouseMovements
+        };
+
+        keystrokeTimes = [];
+        mouseMovements = [];
+    }
+
     fetch("/behavior", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-            keystrokes: keystrokeTimes,
-            mouse: mouseMovements
-        })
+        body: JSON.stringify(payload)
     });
 
-    keystrokeTimes = [];
-    mouseMovements = [];
-
 }, 2000);
-
-
