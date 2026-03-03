@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Admin Portal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Admin Portal</title>
 
-    <!-- Modern Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
@@ -16,7 +15,7 @@ body {
     background: linear-gradient(135deg, #eef2ff, #f5f3ff 40%, #e0e7ff);
 }
 
-/* ---------------- Sidebar ---------------- */
+/* Sidebar */
 
 .sidebar {
     width: 240px;
@@ -24,12 +23,12 @@ body {
     background: linear-gradient(to bottom, #1e1b4b, #312e81);
     color: white;
     padding: 30px 20px;
+    transition: transform 0.3s ease;
 }
 
 .sidebar h2 {
     margin-bottom: 50px;
     font-weight: 600;
-    letter-spacing: -0.5px;
 }
 
 .sidebar a {
@@ -38,15 +37,14 @@ body {
     display: block;
     margin: 18px 0;
     font-size: 15px;
-    transition: all 0.25s ease;
+    transition: 0.25s;
 }
 
 .sidebar a:hover {
     color: white;
-    transform: translateX(4px);
 }
 
-/* ---------------- Main ---------------- */
+/* Main */
 
 .main {
     flex: 1;
@@ -54,106 +52,78 @@ body {
     flex-direction: column;
 }
 
-/* ---------------- Topbar ---------------- */
+/* Topbar */
 
 .topbar {
-    background: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.8);
     backdrop-filter: blur(12px);
-    padding: 18px 35px;
-    border-bottom: 1px solid rgba(99,102,241,0.15);
+    padding: 18px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.topbar div:first-child {
-    font-weight: 600;
-    letter-spacing: -0.3px;
+.menu-btn {
+    font-size: 22px;
+    cursor: pointer;
+    display: none;
 }
 
-/* ---------------- Status Indicator ---------------- */
+/* Status */
 
 .status-indicator {
-    padding: 8px 18px;
+    padding: 8px 16px;
     border-radius: 30px;
     font-size: 13px;
-    font-weight: 500;
-    transition: all 0.35s ease;
 }
 
-/* Trusted */
-.status-indicator.trusted {
+.trusted {
     background: #dcfce7;
     color: #166534;
-    box-shadow: 0 0 12px rgba(34,197,94,0.25);
 }
 
-/* Monitor */
-.status-indicator.monitor {
+.monitor {
     background: #ede9fe;
     color: #5b21b6;
-    animation: pulseSoft 1.8s infinite;
 }
 
-/* Danger */
-.status-indicator.danger {
+.danger {
     background: #fee2e2;
     color: #7f1d1d;
 }
 
-@keyframes pulseSoft {
-    0% { box-shadow: 0 0 0 0 rgba(139,92,246,0.35); }
-    70% { box-shadow: 0 0 0 12px rgba(139,92,246,0); }
-    100% { box-shadow: 0 0 0 0 rgba(139,92,246,0); }
-}
-
-/* ---------------- Content ---------------- */
+/* Content */
 
 .content {
     padding: 60px;
     flex: 1;
 }
 
-/* ---------------- Page Card ---------------- */
-
 .page-card {
-    background: rgba(255,255,255,0.9);
-    backdrop-filter: blur(16px);
+    background: white;
     padding: 45px;
     border-radius: 20px;
-    box-shadow: 0 20px 50px rgba(30,27,75,0.08);
-    width: 100%;
     max-width: 950px;
+    width: 100%;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.05);
 }
-
-/* 🔥 Proper Heading Styling */
 
 .page-card h2 {
-    font-size: 28px;
     font-weight: 700;
-    letter-spacing: -0.6px;
-    margin-bottom: 18px;
-    color: #1e293b;
-}
-
-.page-card p {
-    color: #475569;
-    line-height: 1.8;
-    margin-bottom: 16px;
-    font-size: 15.5px;
-}
-
-.page-card ul {
-    padding-left: 18px;
-    line-height: 1.8;
+    font-size: 28px;
     margin-bottom: 20px;
 }
 
-.page-card li {
-    margin-bottom: 8px;
+/* Overlay */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: none;
 }
 
-/* ---------------- Responsive ---------------- */
+/* Responsive */
 
 @media (max-width: 768px) {
 
@@ -162,22 +132,24 @@ body {
     }
 
     .sidebar {
-        width: 100%;
-        height: auto;
-        min-height: auto;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        padding: 12px 10px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-100%);
+        z-index: 1000;
     }
 
-    .sidebar h2 {
-        display: none;
+    .sidebar.active {
+        transform: translateX(0);
     }
 
-    .sidebar a {
-        margin: 0 6px;
-        font-size: 13px;
+    .menu-btn {
+        display: block;
+    }
+
+    .overlay.active {
+        display: block;
     }
 
     .content {
@@ -185,21 +157,7 @@ body {
     }
 
     .page-card {
-        padding: 24px;
-        border-radius: 16px;
-    }
-
-    .page-card h2 {
-        font-size: 22px;
-    }
-
-    .topbar {
-        padding: 14px 18px;
-    }
-
-    .status-indicator {
-        font-size: 12px;
-        padding: 6px 14px;
+        padding: 25px;
     }
 }
 
@@ -215,39 +173,43 @@ body {
     <a href="/reports">Reports</a>
     <a href="/security">Security</a>
 </div>
+
 <div class="overlay" onclick="toggleMenu()"></div>
 
 <div class="main">
 
-    <div class="topbar">
+<div class="topbar">
     <div style="display:flex; align-items:center; gap:15px;">
         <div class="menu-btn" onclick="toggleMenu()">☰</div>
         <div>Secure Admin Portal</div>
     </div>
     <div id="top-status" class="status-indicator"></div>
-    </div>
+</div>
 
-    <div class="content">
-        {% block content %}{% endblock %}
-    </div>
+<div class="content">
+    {% block content %}{% endblock %}
+</div>
 
 </div>
 
 <script>
 
+function toggleMenu() {
+    document.querySelector(".sidebar").classList.toggle("active");
+    document.querySelector(".overlay").classList.toggle("active");
+}
+
 function updateTopStatus(risk) {
     let el = document.getElementById("top-status");
     el.className = "status-indicator";
 
-    if (risk === "Learning" || risk === "Monitoring") {
-        el.classList.add("monitor");
-        el.innerText = "Analyzing session integrity...";
-    }
-    else if (risk === "Trusted") {
+    if (risk === "Trusted") {
         el.classList.add("trusted");
         el.innerText = "Session Secure";
-    }
-    else if (risk === "Re-Verify Required") {
+    } else if (risk === "Monitoring") {
+        el.classList.add("monitor");
+        el.innerText = "Monitoring...";
+    } else {
         el.classList.add("danger");
         el.innerText = "Verification Required";
     }
@@ -262,13 +224,6 @@ function fetchStatus() {
 fetchStatus();
 setInterval(fetchStatus, 800);
 
-function toggleMenu() {
-    const sidebar = document.querySelector(".sidebar");
-    const overlay = document.querySelector(".overlay");
-
-    sidebar.classList.toggle("active");
-    overlay.classList.toggle("active");
-}
 </script>
 
 </body>
