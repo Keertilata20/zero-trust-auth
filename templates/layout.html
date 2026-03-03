@@ -4,31 +4,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Secure Admin Portal</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 
 body {
     margin: 0;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Manrope', sans-serif;
     display: flex;
     background: linear-gradient(135deg, #eef2ff, #f5f3ff 40%, #e0e7ff);
 }
 
-/* Sidebar */
+/* ================= Sidebar ================= */
 
 .sidebar {
-    width: 240px;
+    width: 250px;
     min-height: 100vh;
-    background: linear-gradient(to bottom, #1e1b4b, #312e81);
+    background: linear-gradient(to bottom, #1e1b4b, #2e2a74);
     color: white;
-    padding: 30px 20px;
+    padding: 35px 22px;
     transition: transform 0.3s ease;
 }
 
 .sidebar h2 {
-    margin-bottom: 50px;
-    font-weight: 600;
+    margin-bottom: 55px;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -0.5px;
 }
 
 .sidebar a {
@@ -37,14 +39,16 @@ body {
     display: block;
     margin: 18px 0;
     font-size: 15px;
+    font-weight: 600;
     transition: 0.25s;
 }
 
 .sidebar a:hover {
     color: white;
+    transform: translateX(4px);
 }
 
-/* Main */
+/* ================= Main ================= */
 
 .main {
     flex: 1;
@@ -52,15 +56,23 @@ body {
     flex-direction: column;
 }
 
-/* Topbar */
+/* ================= Topbar ================= */
 
 .topbar {
-    background: rgba(255,255,255,0.8);
-    backdrop-filter: blur(12px);
-    padding: 18px 30px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(14px);
+    padding: 20px 32px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.topbar-title {
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: -0.3px;
+    color: #0f172a;
 }
 
 .menu-btn {
@@ -69,12 +81,13 @@ body {
     display: none;
 }
 
-/* Status */
+/* ================= Status ================= */
 
 .status-indicator {
-    padding: 8px 16px;
+    padding: 8px 18px;
     border-radius: 30px;
     font-size: 13px;
+    font-weight: 600;
 }
 
 .trusted {
@@ -92,38 +105,56 @@ body {
     color: #7f1d1d;
 }
 
-/* Content */
+/* ================= Content ================= */
 
 .content {
-    padding: 60px;
+    padding: 70px;
     flex: 1;
 }
 
 .page-card {
-    background: white;
-    padding: 45px;
-    border-radius: 20px;
-    max-width: 950px;
+    background: #ffffff;
+    padding: 55px;
+    border-radius: 24px;
+    max-width: 1000px;
     width: 100%;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+    box-shadow: 0 30px 60px rgba(15,23,42,0.08);
 }
 
 .page-card h2 {
-    font-weight: 700;
-    font-size: 28px;
-    margin-bottom: 20px;
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 25px;
+    color: #0b132b;
 }
 
-/* Overlay */
+.page-card p {
+    color: #475569;
+    line-height: 1.9;
+    font-size: 16px;
+    margin-bottom: 18px;
+}
+
+.page-card ul {
+    margin-top: 20px;
+    padding-left: 20px;
+}
+
+.page-card li {
+    margin-bottom: 8px;
+}
+
+/* ================= Overlay ================= */
 
 .overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0,0,0,0.35);
     display: none;
 }
 
-/* Responsive */
+/* ================= Responsive ================= */
 
 @media (max-width: 768px) {
 
@@ -153,11 +184,16 @@ body {
     }
 
     .content {
-        padding: 20px;
+        padding: 25px;
     }
 
     .page-card {
-        padding: 25px;
+        padding: 30px;
+        border-radius: 18px;
+    }
+
+    .page-card h2 {
+        font-size: 28px;
     }
 }
 
@@ -181,7 +217,7 @@ body {
 <div class="topbar">
     <div style="display:flex; align-items:center; gap:15px;">
         <div class="menu-btn" onclick="toggleMenu()">☰</div>
-        <div>Secure Admin Portal</div>
+        <div class="topbar-title">Secure Admin Portal</div>
     </div>
     <div id="top-status" class="status-indicator"></div>
 </div>
