@@ -184,6 +184,17 @@ def reset():
     grace_until = time.time() + 5
     return jsonify({"status": "reset"})
 
+@app.route("/delete-baseline")
+def delete_baseline():
+    import os
+
+    if os.path.exists(BASELINE_PATH):
+        os.remove(BASELINE_PATH)
+        return jsonify({"status": "Baseline deleted"})
+    
+    return jsonify({"status": "No baseline to delete"})
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
