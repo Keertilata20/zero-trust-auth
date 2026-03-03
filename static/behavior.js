@@ -61,3 +61,6 @@ setInterval(() => {
         document.getElementById("risk-status").innerText = data.risk;
     });
 }, 5000);
+
+
+print("Baseline saved:", baseline)
