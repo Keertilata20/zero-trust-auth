@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Secure Admin Portal</title>
+
+    <!-- Modern Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    background: linear-gradient(135deg, #eef2ff, #f5f3ff 40%, #e0e7ff);
+}
+
+/* ---------------- Sidebar ---------------- */
+
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    background: linear-gradient(to bottom, #1e1b4b, #312e81);
+    color: white;
+    padding: 30px 20px;
+}
+
+.sidebar h2 {
+    margin-bottom: 50px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.sidebar a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    display: block;
+    margin: 18px 0;
+    font-size: 15px;
+    transition: all 0.25s ease;
+}
+
+.sidebar a:hover {
+    color: white;
+    transform: translateX(4px);
+}
+
+/* ---------------- Main ---------------- */
+
+.main {
+    flex: 1;
+}
+
+/* ---------------- Topbar ---------------- */
+
+.topbar {
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(12px);
+    padding: 18px 35px;
+    border-bottom: 1px solid rgba(99,102,241,0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.topbar div:first-child {
+    font-weight: 600;
+    letter-spacing: -0.3px;
+}
+
+/* ---------------- Status Indicator ---------------- */
+
+.status-indicator {
+    padding: 8px 18px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.35s ease;
+}
+
+/* Trusted */
+.status-indicator.trusted {
+    background: #dcfce7;
+    color: #166534;
+    box-shadow: 0 0 12px rgba(34,197,94,0.25);
+}
+
+/* Monitor / Learning */
+.status-indicator.monitor {
+    background: #ede9fe;
+    color: #5b21b6;
+    animation: pulseSoft 1.8s infinite;
+}
+
+/* Danger */
+.status-indicator.danger {
+    background: #fee2e2;
+    color: #7f1d1d;
+}
+
+@keyframes pulseSoft {
+    0% { box-shadow: 0 0 0 0 rgba(139,92,246,0.35); }
+    70% { box-shadow: 0 0 0 12px rgba(139,92,246,0); }
+    100% { box-shadow: 0 0 0 0 rgba(139,92,246,0); }
+}
+
+/* ---------------- Content Area ---------------- */
+
+.content {
+    padding: 50px;
+    min-height: 100vh;
+}
+
+/* ---------------- Page Card ---------------- */
+
+.page-card {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(16px);
+    padding: 40px;
+    border-radius: 18px;
+    box-shadow: 0 15px 40px rgba(30,27,75,0.08);
+    max-width: 950px;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+}
+
+.page-subtitle {
+    color: #64748b;
+    font-size: 15px;
+    margin-bottom: 30px;
+}
+
+ul {
+    padding-left: 18px;
+    line-height: 1.7;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>Admin Console</h2>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/users">Users</a>
+    <a href="/reports">Reports</a>
+    <a href="/security">Security</a>
+</div>
+
+<div class="main">
+
+    <div class="topbar">
+        <div>Secure Admin Portal</div>
+        <div id="top-status" class="status-indicator"></div>
+    </div>
+
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+</div>
+
+<script>
+
+function updateTopStatus(risk) {
+    let el = document.getElementById("top-status");
+    el.className = "status-indicator";
+
+    if (risk === "Learning" || risk === "Monitoring") {
+        el.classList.add("monitor");
+        el.innerText = "Analyzing session integrity...";
+    }
+    else if (risk === "Trusted") {
+        el.classList.add("trusted");
+        el.innerText = "Session Secure";
+    }
+    else if (risk === "Re-Verify Required") {
+        el.classList.add("danger");
+        el.innerText = "Verification Required";
+    }
+}
+
+function fetchStatus() {
+    fetch("/status")
+    .then(res => res.json())
+    .then(data => updateTopStatus(data.risk));
+}
+
+fetchStatus();
+setInterval(fetchStatus, 800);
+
+</script>
+
+</body>
+</html>
