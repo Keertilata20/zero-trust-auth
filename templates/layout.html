@@ -139,6 +139,53 @@ ul {
     padding-left: 18px;
     line-height: 1.7;
 }
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+
+    body {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: space-around;
+        padding: 15px;
+    }
+
+    .sidebar h2 {
+        display: none; /* hide Admin Console title on mobile */
+    }
+
+    .sidebar a {
+        margin: 0 8px;
+        font-size: 14px;
+    }
+
+    .main {
+        width: 100%;
+    }
+
+    .content {
+        padding: 20px;
+    }
+
+    .page-card {
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    .topbar {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+
+    .status-indicator {
+        font-size: 12px;
+        padding: 6px 14px;
+    }
+}
 
 </style>
 </head>
