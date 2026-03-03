@@ -28,9 +28,9 @@ def calculate_risk(keystrokes, mouse):
     # Weighted risk score
     risk_score = (0.6 * key_dev) + (0.4 * mouse_dev)
 
-    if risk_score < 20:
+    if risk_score < 60:
         return "Trusted"
-    elif risk_score < 50:
+    elif risk_score < 150:
         return "Monitoring"
     else:
         return "Re-Verify Required"

@@ -52,7 +52,7 @@ setInterval(() => {
     keystrokeTimes = [];
     mouseMovements = [];
 
-}, 10000);
+}, 2000);
 // Fetch latest trust status every 5 seconds
 setInterval(() => {
     fetch("/status")
@@ -60,7 +60,5 @@ setInterval(() => {
     .then(data => {
         document.getElementById("risk-status").innerText = data.risk;
     });
-}, 5000);
+}, 8000);
 
-
-print("Baseline saved:", baseline)

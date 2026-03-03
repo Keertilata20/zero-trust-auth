@@ -32,8 +32,8 @@ def login():
         # Reset learning data
         learning_data = {"keystrokes": [], "mouse": []}
 
-        # Start learning phase (5 seconds)
-        learning_until = time.time() + 5
+        # Start learning phase (8 seconds)
+        learning_until = time.time() + 8
         current_risk = "Learning"
 
         return redirect('/dashboard')
