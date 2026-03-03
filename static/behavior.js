@@ -53,12 +53,5 @@ setInterval(() => {
     mouseMovements = [];
 
 }, 2000);
-// Fetch latest trust status every 5 seconds
-setInterval(() => {
-    fetch("/status")
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById("risk-status").innerText = data.risk;
-    });
-}, 8000);
+
 
