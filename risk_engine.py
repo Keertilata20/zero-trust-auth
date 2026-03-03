@@ -26,21 +26,34 @@ def calculate_risk(keystrokes, mouse, touch_avg=None, touch_distance=None):
     if not baseline:
         return "Monitoring"
 
+    risk_score = 0
+    active_metrics = 0
+
     # ---------------- MOBILE ----------------
     if touch_avg is not None and touch_distance is not None:
 
-        dev_touch_interval = abs(touch_avg - baseline.get("touch_avg", 0))
-        dev_touch_distance = abs(touch_distance - baseline.get("touch_distance", 0))
+        if baseline.get("touch_avg", 0) > 0:
+            risk_score += abs(touch_avg - baseline["touch_avg"])
+            active_metrics += 1
 
-        risk_score = (0.5 * dev_touch_interval) + (0.5 * dev_touch_distance)
+        if baseline.get("touch_distance", 0) > 0:
+            risk_score += abs(touch_distance - baseline["touch_distance"])
+            active_metrics += 1
 
     # ---------------- DESKTOP ----------------
     else:
 
-        key_dev = calculate_deviation(keystrokes, baseline.get("keystroke_avg", 0))
-        mouse_dev = calculate_deviation(mouse, baseline.get("mouse_avg", 0))
+        if baseline.get("keystroke_avg", 0) > 0 and keystrokes:
+            risk_score += abs(sum(keystrokes)/len(keystrokes) - baseline["keystroke_avg"])
+            active_metrics += 1
 
-        risk_score = (0.6 * key_dev) + (0.4 * mouse_dev)
+        if baseline.get("mouse_avg", 0) > 0 and mouse:
+            risk_score += abs(sum(mouse)/len(mouse) - baseline["mouse_avg"])
+            active_metrics += 1
+
+    # Normalize if multiple metrics active
+    if active_metrics > 0:
+        risk_score = risk_score / active_metrics
 
     # ---------------- THRESHOLDS ----------------
     if risk_score < 60:
