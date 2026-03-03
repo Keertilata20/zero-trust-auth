@@ -11,7 +11,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
 }
         .login-card {
             background: rgba(15, 23, 42, 0.85);
@@ -74,6 +74,31 @@
             color: #94a3b8;
             text-align: center;
         }
+
+        @media (max-width: 768px) {
+
+    body {
+        padding: 20px;
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: 380px;
+        padding: 28px;
+    }
+
+    .login-card h2 {
+        font-size: 18px;
+    }
+
+    input {
+        font-size: 14px;
+    }
+
+    button {
+        font-size: 14px;
+    }
+}
     </style>
 </head>
 

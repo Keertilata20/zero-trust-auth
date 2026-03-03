@@ -23,6 +23,7 @@ body {
     background: linear-gradient(to bottom, #1e1b4b, #312e81);
     color: white;
     padding: 30px 20px;
+    transition: left 0.3s ease;
 }
 
 .sidebar h2 {
@@ -63,9 +64,12 @@ body {
     align-items: center;
 }
 
-.topbar div:first-child {
-    font-weight: 600;
-    letter-spacing: -0.3px;
+/* Hamburger button */
+
+.menu-btn {
+    display: none;
+    font-size: 22px;
+    cursor: pointer;
 }
 
 /* ---------------- Status Indicator ---------------- */
@@ -78,21 +82,18 @@ body {
     transition: all 0.35s ease;
 }
 
-/* Trusted */
 .status-indicator.trusted {
     background: #dcfce7;
     color: #166534;
     box-shadow: 0 0 12px rgba(34,197,94,0.25);
 }
 
-/* Monitor / Learning */
 .status-indicator.monitor {
     background: #ede9fe;
     color: #5b21b6;
     animation: pulseSoft 1.8s infinite;
 }
 
-/* Danger */
 .status-indicator.danger {
     background: #fee2e2;
     color: #7f1d1d;
@@ -104,14 +105,12 @@ body {
     100% { box-shadow: 0 0 0 0 rgba(139,92,246,0); }
 }
 
-/* ---------------- Content Area ---------------- */
+/* ---------------- Content ---------------- */
 
 .content {
     padding: 50px;
     min-height: 100vh;
 }
-
-/* ---------------- Page Card ---------------- */
 
 .page-card {
     background: rgba(255,255,255,0.85);
@@ -122,43 +121,55 @@ body {
     max-width: 950px;
 }
 
-.page-title {
-    font-size: 28px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    letter-spacing: -0.5px;
-}
-
-.page-subtitle {
-    color: #64748b;
-    font-size: 15px;
-    margin-bottom: 30px;
-}
-
 ul {
     padding-left: 18px;
     line-height: 1.7;
 }
-/* RESPONSIVE DESIGN */
+
+/* ---------------- Overlay ---------------- */
+
+.overlay {
+    display: none;
+}
+
+/* ---------------- MOBILE RESPONSIVE ---------------- */
+
 @media (max-width: 768px) {
 
     body {
         flex-direction: column;
     }
 
-    .sidebar {
-        width: 100%;
-        height: auto;      /* this overrides 100vh */
-        min-height: auto;  /* extra safety */
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        padding: 12px 10px;
+    .menu-btn {
+        display: block;
     }
 
-    .sidebar a {
-        margin: 0 6px;
-        font-size: 13px;
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -260px;
+        height: 100vh;
+        width: 240px;
+        z-index: 1000;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.35);
+        z-index: 900;
+        display: none;
+    }
+
+    .overlay.active {
+        display: block;
     }
 
     .content {
@@ -167,7 +178,7 @@ ul {
 
     .page-card {
         max-width: 100%;
-        padding: 22px;
+        padding: 24px;
     }
 }
 
@@ -183,12 +194,16 @@ ul {
     <a href="/reports">Reports</a>
     <a href="/security">Security</a>
 </div>
+<div class="overlay" onclick="toggleMenu()"></div>
 
 <div class="main">
 
     <div class="topbar">
+    <div style="display:flex; align-items:center; gap:15px;">
+        <div class="menu-btn" onclick="toggleMenu()">☰</div>
         <div>Secure Admin Portal</div>
-        <div id="top-status" class="status-indicator"></div>
+    </div>
+    <div id="top-status" class="status-indicator"></div>
     </div>
 
     <div class="content">
@@ -226,6 +241,13 @@ function fetchStatus() {
 fetchStatus();
 setInterval(fetchStatus, 800);
 
+function toggleMenu() {
+    const sidebar = document.querySelector(".sidebar");
+    const overlay = document.querySelector(".overlay");
+
+    sidebar.classList.toggle("active");
+    overlay.classList.toggle("active");
+}
 </script>
 
 </body>
