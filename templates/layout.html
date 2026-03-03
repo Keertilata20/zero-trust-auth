@@ -148,23 +148,17 @@ ul {
 
     .sidebar {
         width: 100%;
-        height: auto;
+        height: auto;      /* this overrides 100vh */
+        min-height: auto;  /* extra safety */
         display: flex;
         justify-content: space-around;
-        padding: 15px;
-    }
-
-    .sidebar h2 {
-        display: none; /* hide Admin Console title on mobile */
+        align-items: center;
+        padding: 12px 10px;
     }
 
     .sidebar a {
-        margin: 0 8px;
-        font-size: 14px;
-    }
-
-    .main {
-        width: 100%;
+        margin: 0 6px;
+        font-size: 13px;
     }
 
     .content {
@@ -173,17 +167,7 @@ ul {
 
     .page-card {
         max-width: 100%;
-        padding: 20px;
-    }
-
-    .topbar {
-        padding: 12px 20px;
-        font-size: 14px;
-    }
-
-    .status-indicator {
-        font-size: 12px;
-        padding: 6px 14px;
+        padding: 22px;
     }
 }
 
