@@ -4,7 +4,7 @@ A continuous authentication prototype based on behavioral biometrics and dynamic
 
 Traditional systems trust users after login.  This system implements a Zero Trust principle:
 
-**Never trust once. Continuously verify.**
+**Never trust once. Verify Continuously.**
 
 Instead of relying only on passwords or tokens, the system monitors behavioral signals during a session and updates a real-time trust score.
 
@@ -22,7 +22,7 @@ If behavior deviates from the user's baseline, the system flags elevated risk an
 
 ---
 
-## ⚙️ How It Works
+## ⚙️ Working
 
 1. User interacts normally after login
 2. Behavioral signals are captured
@@ -64,7 +64,7 @@ Output:
 
 ---
 
-## 🚀 Why This Matters
+## 🚀 Importance
 
 Static authentication assumes identity remains constant.
 
