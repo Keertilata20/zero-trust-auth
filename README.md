@@ -20,25 +20,25 @@ If behavioral deviation exceeds acceptable limits, the system can shift the sess
 ---
 
 ## Key Features
-Continuous Behavioral Authentication
+** Continuous Behavioral Authentication
 
 The system verifies user identity throughout the session rather than relying solely on login credentials.
 
-Multi-Signal Behavioral Monitoring
+** Multi-Signal Behavioral Monitoring
 
 The model analyzes interaction patterns including:
 
 Desktop signals
 
-Keystroke timing cadence
+- Keystroke timing cadence
 
-Mouse movement velocity
+- Mouse movement velocity
 
 Mobile signals
 
-Touch interval rhythm
+- Touch interval rhythm
 
-Swipe movement distance
+- Swipe movement distance
 
 Learning Phase
 
@@ -48,11 +48,11 @@ Adaptive Risk Evaluation
 
 User behavior is continuously compared against the baseline to determine the trust state:
 
-Trusted
+- Trusted
 
-Monitoring
+- Monitoring
 
-Re-Verify Required
+- Re-Verify Required
 
 Device-Aware Authentication
 
@@ -62,13 +62,17 @@ Real-Time Monitoring
 
 The browser streams behavioral signals to the backend where risk evaluation occurs continuously.
 
-System Architecture
-Behavioral Authentication Pipeline
-Behavioral Baseline Model
+## System Architecture
+--- 
+
+## Behavioral Authentication Pipeline
+---
+
+## Behavioral Baseline Model
 
 During the learning phase, the system records interaction metrics and computes average values.
 
-## Example baseline structure:
+ Example baseline structure:
 
 baseline = {
   keystroke_avg,
@@ -80,12 +84,13 @@ baseline = {
 Only metrics observed during the learning phase are activated for future risk evaluation.
 
 This prevents false alerts when certain signals are absent.
+---
 
-Risk Evaluation
+## Risk Evaluation
 
 The system calculates deviation between current behavior and the baseline.
 
-## Example concept:
+# Example concept:
 
 risk_score = deviation(current_behavior, baseline)
 
