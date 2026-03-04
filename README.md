@@ -25,7 +25,7 @@ A behavioral baseline is learned during a short **learning phase**, after which 
 
 The system continuously verifies identity during the session instead of relying only on login credentials.
 
----
+
 
 ## Multi-Signal Behavioral Monitoring
 
@@ -37,13 +37,13 @@ The system continuously verifies identity during the session instead of relying 
 - Touch interval rhythm
 - Swipe movement distance
 
----
+
 
 ## Learning Phase
 
 After login, the system enters a short learning period where the baseline behavioral profile is generated.
 
----
+
 
 ## Adaptive Risk Evaluation
 
@@ -59,7 +59,7 @@ User behavior is continuously evaluated and the session is classified as:
 
 The model automatically adapts to both **desktop and mobile interaction styles**.
 
----
+
 
 ## Real-Time Monitoring
 
