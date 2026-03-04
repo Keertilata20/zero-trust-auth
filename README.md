@@ -53,7 +53,7 @@ User behavior is continuously evaluated and the session is classified as:
 - **Monitoring**
 - **Re-Verification Required**
 
----
+
 
 ## Device-Aware Authentication
 
@@ -65,11 +65,11 @@ The model automatically adapts to both **desktop and mobile interaction styles**
 
 Behavioral signals are streamed to the backend where risk analysis is performed.
 
----
+
 
 # Authentication Flow
 
-```text
+```
 User Interaction
         │
         ▼
@@ -112,7 +112,7 @@ Flask Backend (app.py)
 
 # Behavioral Authentication Pipeline
 
-```text
+```
 User Behavior
       │
       ▼
@@ -172,13 +172,13 @@ Behavioral deviation from the baseline is calculated to determine session trust.
 
 Conceptually:
 
-```text
+```
 risk_score = deviation(current_behavior, baseline)
 ```
 
 Session state transitions:
 
-```text
+```
 Trusted → Monitoring → Re-Verify
 ```
 
@@ -214,7 +214,7 @@ Trusted → Monitoring → Re-Verify
 
 Debug endpoint:
 
-```text
+```
 /debug-baseline
 ```
 
