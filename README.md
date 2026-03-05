@@ -8,6 +8,7 @@
 ![Zero Trust](https://img.shields.io/badge/security-zero--trust-purple)
 ![Behavioral Biometrics](https://img.shields.io/badge/auth-behavioral--biometrics-orange)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://zero-trust-auth.onrender.com)
+[![Uptime](https://img.shields.io/badge/uptime-monitored%20by%20UptimeRobot-brightgreen)](https://stats.uptimerobot.com/WrxGas60Gb)
 
 
 <p align="center">
