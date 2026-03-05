@@ -1,13 +1,4 @@
-# Zero Trust Behavioral Authentication Portal
 
-A web-based **adaptive authentication system** that continuously verifies user identity using behavioral biometrics such as typing rhythm, mouse movement, and touch interaction patterns.
-
-Traditional authentication systems verify identity only during login.  
-This system implements **continuous authentication**, meaning the user's behavior is monitored throughout the entire session.
-
-If the behavior deviates significantly from the learned pattern, the system can trigger additional verification.
-
----
 # Zero Trust Behavioral Authentication Portal
 
 ![Prototype](https://img.shields.io/badge/project-research--prototype-blue)
@@ -22,7 +13,10 @@ If the behavior deviates significantly from the learned pattern, the system can 
 
 🌐 Live Demo: https://zero-trust-auth.onrender.com
 
-Traditional authentication systems verify identity only during login. This system implements continuous authentication, meaning the user's behavior is monitored throughout the entire session.
+Traditional authentication systems verify identity only during login.  This system implements **continuous authentication**, meaning the user's behavior is monitored throughout the entire session.
+
+If the behavior deviates significantly from the learned pattern, the system can trigger additional verification.
+
 
 ---
 
