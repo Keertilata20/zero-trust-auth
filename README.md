@@ -65,84 +65,82 @@ The model automatically adapts to both **desktop and mobile interaction styles**
 
 Behavioral signals are streamed to the backend where risk analysis is performed.
 
-
-
-# Authentication Flow
-
-```
-User Interaction
-        │
-        ▼
-Frontend Portal
-        │
-        ▼
-behavior.js (captures user signals)
-        │
-        ├── Keystroke Timing
-        ├── Mouse Movement
-        └── Touch Interaction
-        │
-        ▼
-/behavior API
-        │
-        ▼
-Flask Backend (app.py)
-        │
-        ├── Learning Phase Controller
-        ├── Baseline Creation
-        └── Risk Engine
-                │
-                ▼
-            risk_engine.py
-                │
-                ▼
-        Behavioral Deviation Analysis
-                │
-                ▼
-        Session Trust Decision
-        │        │        │
-        ▼        ▼        ▼
-     Trusted  Monitoring  Reverify
-                │
-                ▼
-      Frontend Status Indicator
-```
-
 ---
 
-# Behavioral Authentication Pipeline
+# System Architecture
 
+This diagram illustrates the system architecture of the Zero Trust behavioral authentication portal. User interactions are captured on the frontend, transmitted to the backend for processing, and analyzed  by the risk engine to continuously evaluate session trust.
+
+```mermaid
+flowchart TD
+
+A[User Interaction] --> B[Frontend Portal]
+
+B --> C[behavior.js - Capture Signals]
+
+C --> D1[Keystroke Timing]
+C --> D2[Mouse Movement]
+C --> D3[Touch Interaction]
+
+D1 --> E[Behavior API]
+D2 --> E
+D3 --> E
+
+E --> F[Flask Backend app.py]
+
+F --> G1[Learning Phase Controller]
+F --> G2[Baseline Creation]
+F --> G3[Risk Engine]
+
+G1 --> H[risk_engine.py]
+G2 --> H
+G3 --> H
+
+H --> I[Behavioral Deviation Analysis]
+
+I --> J{Session Trust Decision}
+
+J --> K1[Trusted]
+J --> K2[Monitoring]
+J --> K3[Reverify]
+
+K1 --> L[Frontend Status Indicator]
+K2 --> L
+K3 --> L
 ```
-User Behavior
-      │
-      ▼
-Signal Capture
-      │
-      ├── Keystroke Timing
-      ├── Mouse Movement
-      └── Touch Interaction
-      │
-      ▼
-Learning Phase
-      │
-      ▼
-Baseline Model Creation
-      │
-      ▼
-Real-Time Behavior Monitoring
-      │
-      ▼
-Deviation Calculation
-      │
-      ▼
-Risk Score Evaluation
-      │
-      ▼
-Session State Decision
-      │
-      ├── Trusted
-      ├── Monitoring
-      └── Re-Verify
+---
+
+## Behavioral Authentication Pipeline
+
+This pipeline shows how behavioral signals are collected, modeled during a learning phase, and continuously analyzed to detect deviations from the user's baseline interaction pattern.
+The resulting risk score determines whether the session remains trusted, monitored, or requires re-verification.
+
+```mermaid
+flowchart TD
+
+A[User Behavior] --> B[Signal Capture]
+
+B --> C1[Keystroke Timing]
+B --> C2[Mouse Movement]
+B --> C3[Touch Interaction]
+
+C1 --> D[Learning Phase]
+C2 --> D
+C3 --> D
+
+D --> E[Baseline Model Creation]
+
+E --> F[Real-Time Behavior Monitoring]
+
+F --> G[Deviation Calculation]
+
+G --> H[Risk Score Evaluation]
+
+H --> I{Session State Decision}
+
+I --> J1[Trusted]
+I --> J2[Monitoring]
+I --> J3[Re-Verify]
 ```
 
 ---
