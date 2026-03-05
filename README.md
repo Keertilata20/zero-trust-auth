@@ -8,6 +8,20 @@ This system implements **continuous authentication**, meaning the user's behavio
 If the behavior deviates significantly from the learned pattern, the system can trigger additional verification.
 
 ---
+# # Zero Trust Behavioral Authentication Portal
+
+![Prototype](https://img.shields.io/badge/project-research--prototype-blue)
+![Python](https://img.shields.io/badge/backend-python-green)
+![Flask](https://img.shields.io/badge/framework-flask-black)
+![Cybersecurity](https://img.shields.io/badge/domain-cybersecurity-red)
+![Zero Trust](https://img.shields.io/badge/security-zero--trust-purple)
+![Behavioral Biometrics](https://img.shields.io/badge/auth-behavioral--biometrics-orange)
+[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://zero-trust-auth.onrender.com)
+
+🌐 **Live Demo:** https://zero-trust-auth.onrender.com
+
+
+---
 
 # Project Overview
 
