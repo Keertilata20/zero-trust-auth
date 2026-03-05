@@ -8,7 +8,7 @@ This system implements **continuous authentication**, meaning the user's behavio
 If the behavior deviates significantly from the learned pattern, the system can trigger additional verification.
 
 ---
-# # Zero Trust Behavioral Authentication Portal
+# Zero Trust Behavioral Authentication Portal
 
 ![Prototype](https://img.shields.io/badge/project-research--prototype-blue)
 ![Python](https://img.shields.io/badge/backend-python-green)
@@ -18,8 +18,11 @@ If the behavior deviates significantly from the learned pattern, the system can 
 ![Behavioral Biometrics](https://img.shields.io/badge/auth-behavioral--biometrics-orange)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://zero-trust-auth.onrender.com)
 
-🌐 **Live Demo:** https://zero-trust-auth.onrender.com
+**A prototype exploring continuous behavioral authentication within a Zero Trust security architecture.**
 
+🌐 Live Demo: https://zero-trust-auth.onrender.com
+
+Traditional authentication systems verify identity only during login. This system implements continuous authentication, meaning the user's behavior is monitored throughout the entire session.
 
 ---
 
