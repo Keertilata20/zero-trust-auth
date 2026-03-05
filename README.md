@@ -1,5 +1,5 @@
 
-# Zero Trust Behavioral Authentication Portal
+<h1 align="center">🔐 Zero Trust Behavioral Authentication Portal</h1>
 
 ![Prototype](https://img.shields.io/badge/project-research--prototype-blue)
 ![Python](https://img.shields.io/badge/backend-python-green)
@@ -9,9 +9,18 @@
 ![Behavioral Biometrics](https://img.shields.io/badge/auth-behavioral--biometrics-orange)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://zero-trust-auth.onrender.com)
 
-**A prototype exploring continuous behavioral authentication within a Zero Trust security architecture.**
 
-🌐 Live Demo: https://zero-trust-auth.onrender.com
+<p align="center">
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&pause=1000&color=A259FF&center=true&vCenter=true&width=650&lines=Zero+Trust+Behavioral+Authentication;Continuously+Verifying+User+Identity;Monitoring+Behavioral+Signals+in+Real+Time;Never+Trust+Once...Always+Verify" />
+</p>
+
+<p align="center">
+A prototype exploring continuous behavioral authentication within a Zero Trust security architecture.
+</p>
+
+<p align="center">
+🌐 <b>Live Demo:</b> https://zero-trust-auth.onrender.com
+</p>
 
 Traditional authentication systems verify identity only during login.  This system implements **continuous authentication**, meaning the user's behavior is monitored throughout the entire session.
 
