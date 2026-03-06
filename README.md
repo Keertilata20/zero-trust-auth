@@ -203,7 +203,7 @@ Trusted → Monitoring → Re-Verify
 
 ---
 
-# Technology Stack
+# Implementation Stack
 
 ## Backend
 - Python
