@@ -90,7 +90,7 @@ Behavioral signals are streamed to the backend where risk analysis is performed.
 
 # System Architecture
 
-This diagram illustrates the system architecture of the Zero Trust behavioral authentication portal. User interactions are captured on the frontend, transmitted to the backend for processing, and analyzed  by the risk engine to continuously evaluate session trust.
+This diagram illustrates the system architecture of the Zero Trust behavioural authentication portal. User interactions are captured on the frontend, transmitted to the backend for processing, and analyzed  by the risk engine to continuously evaluate session trust.
 
 ```mermaid
 flowchart TD
