@@ -205,20 +205,20 @@ Trusted → Monitoring → Re-Verify
 
 # Implementation Stack
 
-## Backend
+### Backend
 - Python
 - Flask
 
-## Frontend
+### Frontend
 - JavaScript
 - HTML
 - CSS
 
-## Behavioral Modeling
+### Behavioral Modeling
 - NumPy
 - Real-time behavioral signal processing
 
-## Deployment
+### Deployment
 - Render Cloud Platform
 
 ---
